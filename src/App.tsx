@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, ReactHTMLElement, ChangeEvent } from "react";
 import { Pokemon, getAll, getByName } from "./API";
 
 import "./styles.css";
@@ -44,17 +44,32 @@ const PokemonTable: React.FunctionComponent<{
 };
 
 export default function App() {
+  const [pokemon, setPokemon] = useState([]);
+  useEffect(() => {
+   fetch("/pokemon.json").then(response => response.json()).then(data => setPokemon(data)); 
+  });
+
+  function filterPokemonName(value: string){
+    const newPokemonArray = pokemon.filter();
+  }
+
+  function onChangeHandler(evt: ChangeEvent<HTMLInputElement>){
+
+    console.log(evt.target.value);
+  }
   return (
     <div>
       <div className="top-bar">
         <div>Search</div>
-        <input type="text"></input>
+        <input type="text" onChange={onChangeHandler} >
+
+        </input>
         <div>Power threshold</div>
         <input type="text"></input>
         <div>Count over threshold: </div>
       </div>
       <div className="two-column">
-        <PokemonTable pokemon={[]} />
+        <PokemonTable pokemon={pokemon} />
         <div>
           <div>Min: </div>
           <div>Max: </div>
